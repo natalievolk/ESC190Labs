@@ -48,7 +48,45 @@ int print2(struct node2 *head){
         return 0;
     }
     cur = cur->next;
-    printListRec(cur);
+    print2(cur);
+}
+
+void appendInt(struct node2 *head, int *p_value){
+    struct node2 *cur = head;
+    while(cur->next != NULL){
+        cur = cur->next;
+    }
+    //cur->next is now equal to null
+    struct node2 *node = (struct node2 *)malloc(sizeof(struct node2));
+    cur->next = node;
+    node->p_data = p_value;
+    node->type = 0;
+    node->next = NULL;
+}
+void appendFloat(struct node2 *head, float *p_value){
+    struct node2 *cur = head;
+    while(cur->next != NULL){
+        cur = cur->next;
+    }
+    //cur->next is now equal to null
+    struct node2 *node = (struct node2 *)malloc(sizeof(struct node2));
+    cur->next = node;
+    node->p_data = p_value;
+    node->type = 1;
+    node->next = NULL;
+}
+
+void appendDouble(struct node2 *head, double *p_value){
+    struct node2 *cur = head;
+    while(cur->next != NULL){
+        cur = cur->next;
+    }
+    //cur->next is now equal to null
+    struct node2 *node = (struct node2 *)malloc(sizeof(struct node2));
+    cur->next = node;
+    node->p_data = p_value;
+    node->type = 2;
+    node->next = NULL;
 }
 
 int main(){
@@ -73,11 +111,11 @@ int main(){
     
     struct node2 *node01 = (struct node2 *)malloc(sizeof(struct node2));
     node00->next = node01;
-    int b = 5;
+    float b = 5;
     node01->type = 1;
     node01->p_data = (int *)&b;
     
-    struct node2 *node02 = (struct node2 *)malloc(sizeof(struct node2)*2);
+    struct node2 *node02 = (struct node2 *)malloc(sizeof(struct node2));
     node01->next = node02;
     double c = 2.7;
     node02->type = 2;
@@ -85,8 +123,13 @@ int main(){
 
     node02->next = NULL;
     print2(node00);
-    printf("%ld\n", sizeof(struct node2));
-
+    int value = 6;
+    appendInt(node00, &value);
+    float value2 = 7;
+    appendFloat(node00, &value2);
+    double value3 = 4.343;
+    appendDouble(node00, &value3);
+    print2(node00);
     //print2(node0);
     return 0;
 }
