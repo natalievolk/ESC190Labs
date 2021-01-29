@@ -50,7 +50,7 @@ void insertSort(int list[], int size) {
         int j = i-1;
         int temp = *(p_list + i);
 
-        while (temp < *(p_list + j)) {
+        while (temp < *(p_list + j) && j>=0) {
             *(p_list + j + 1) = *(p_list + j);
             *(p_list + j) = temp;
 
@@ -59,7 +59,7 @@ void insertSort(int list[], int size) {
     }
     
     int j = 0;
-    for(j = 0; j < 6; j++){
+    for(j = 0; j < size; j++){
        printf("%d ", list[j]);
     }
     // how to return the list??
@@ -72,7 +72,7 @@ int main() {
     printf("%d\n", a);
 
 
-    int b[6] = {1, 3, 2, 7, 2, 4};
+    int b[9] = {1,-1, 3, 0, -5, 2, -3,4,3};
     int size = sizeof(b)/4;
     insertSort(b, size);
 
