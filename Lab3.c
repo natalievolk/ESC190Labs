@@ -8,6 +8,7 @@
    char *my_strcat(char *dest, char *src)
 */
 char *my_strcat(char *dest, char *src) {
+    char *start = dest;
     while(*dest != '\0') {
         dest++;
     }
@@ -16,7 +17,8 @@ char *my_strcat(char *dest, char *src) {
         dest++;
         src++;
     }
-    return dest;
+    *dest = '\0';
+    return start;
 }
 
 
@@ -50,7 +52,7 @@ int my_strcmp_rec(char *str1, char *str2) {
     } else {
         str1++;
         str2++;
-        my_strcmp_rec(str1, str2);
+        return my_strcmp_rec(str1, str2);
     }
 }
 
@@ -110,16 +112,17 @@ int find_cycle(struct node *head) {
 
 int main() {
     //char *str1 = (char *)malloc(sizeof(char) * (20));
-    char *str1 = "Hello";
-    char *str2 = "He";
+    char str1[10] = "Hello";
+    char str2[10] = "He";
     //printf("%s\n", strcat(str1, str2));
     //printf("%s\n", str1);
 
-    char *str3 = "Hello";
-
-    //int result = my_strcmp_rec(str1, str2);
-    //printf("%d\n", result);
-
+    
+    char str3[10] = "Hello";
+    
+    int result = my_strcmp_rec(str1, str2);
+    printf("%d\n", result);
+    /*
     char *str_num = "1234";
     //printf("%d\n", my_atoi(str_num));
 
@@ -138,6 +141,6 @@ int main() {
     node3->next = NULL;
 
     printf("%d\n", find_cycle(node0));
-
+    */
     return 0;
 }
