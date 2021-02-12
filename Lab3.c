@@ -112,7 +112,7 @@ int find_cycle(struct node *head) {
 
 int main() {
     //char *str1 = (char *)malloc(sizeof(char) * (20));
-    char str1[6] = "Hello"; //6 may not work (not enough space to combine)
+    char str1[10] = "Hello"; //[6] may not work (not enough space to combine)
     char str2[10] = "He"; //use [] notation instead of char *str = ...
     printf("%s\n", strcat(str1, str2));
     //printf("%s\n", str1);
@@ -140,6 +140,6 @@ int main() {
     node3->next = NULL;
 
     printf("%d\n", find_cycle(node0));
-    */
+    
     return 0;
 }
