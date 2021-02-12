@@ -52,6 +52,7 @@ int print2(struct node2 *head){
 }
 
 void appendInt(struct node2 *head, int *p_value){
+    //int *p_value = (int *)malloc(sizeof(int));
     struct node2 *cur = head;
     while(cur->next != NULL){
         cur = cur->next;

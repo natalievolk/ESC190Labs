@@ -52,7 +52,7 @@ int my_strcmp_rec(char *str1, char *str2) {
     } else {
         str1++;
         str2++;
-        return my_strcmp_rec(str1, str2);
+        return my_strcmp_rec(str1, str2); //make sure to return
     }
 }
 
@@ -112,17 +112,16 @@ int find_cycle(struct node *head) {
 
 int main() {
     //char *str1 = (char *)malloc(sizeof(char) * (20));
-    char str1[10] = "Hello";
-    char str2[10] = "He";
-    //printf("%s\n", strcat(str1, str2));
+    char str1[6] = "Hello"; //6 may not work (not enough space to combine)
+    char str2[10] = "He"; //use [] notation instead of char *str = ...
+    printf("%s\n", strcat(str1, str2));
     //printf("%s\n", str1);
 
-    
-    char str3[10] = "Hello";
-    
+    char *str3 = "Hello";
+
     int result = my_strcmp_rec(str1, str2);
     printf("%d\n", result);
-    /*
+
     char *str_num = "1234";
     //printf("%d\n", my_atoi(str_num));
 
