@@ -39,8 +39,8 @@ def find_highest(L, e):
     return -1
 
 if __name__ == '__main__':
-    L = [1, 1, 2, 3, 4, 4, 4]
-    print(find_highest(L, 1))
+    L = [1, 1, 1, 1, 1]
+    print(find_lowest(L, 1))
     '''
     print(find(L, 2))
     print(find(L, 3))
