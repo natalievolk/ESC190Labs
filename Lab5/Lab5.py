@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 
 class Node:
     def __init__(self, name):
@@ -34,7 +35,7 @@ def get_all_nodes(node):
     node.visited = True
     while len(q) > 0:
         cur = q.pop(0) # remove q[0] from q and put it in cur
-        connected.append(cur.name)
+        connected.append(cur)
         for con in cur.connections:
             if not con["node"].visited:
                 q.append(con["node"])
@@ -82,7 +83,6 @@ def DFS_nonrec(node):
     node.visited = True
 
     while len(s) > 0:
-        
         cur = s.pop(-1)
         print(cur.name)
         cur.visited = True
@@ -105,18 +105,32 @@ def dijsktra_slowish(node):
     d = {node.name: 0}
 
     unexplored = get_all_nodes(node)
-    unexplored.remove(node)
+    unvisit_all(node)
+    unexplored.remove(TO)
 
     while len(unexplored) > 0:
-        # your code here
-        pass
+        dist = sys.maxsize
+        closest = None
+
+        for n in S:
+            for con in n.connections:
+                if (con["node"] not in S) and dist > con["weight"] + d.get(n.name, 0):
+                    dist = con["weight"] + d.get(n.name, 0)
+                    closest = con["node"]
+
+        d[closest.name] = dist
+        S.append(closest)
+        unexplored.remove(closest)
+
+    #check order in S and distances are correct
+    for n in S:
+        print(n.name, d[n.name])
 
     return d
 
 
-
-
 if __name__ == '__main__':
+    '''
     TO = Node("TO")
     NYC = Node("NYC")
     DC = Node("DC")
@@ -130,17 +144,38 @@ if __name__ == '__main__':
     connect(NYC, DC, 2)
     connect(SF, DC, 5)
     connect(DC, SEA, 3)
+    '''
+
+    TO = Node("TO")
+    NYC = Node("NYC")
+    DC = Node("DC")
+    CDMX = Node("CDMX")
+    SF = Node("SF")
+
+    connect(TO, NYC, 3)
+    connect(TO, SF, 6)
+    connect(TO, CDMX, 7)
+    connect(NYC, DC, 2)
+    connect(SF, DC, 3)
+
+    #for i in TO.connections:
+       # print(i["node"].name)
 
     #DFS_rec(TO)
 
     unvisit_all(NYC)
 
-    DFS_nonrec(TO)
+    #DFS_nonrec(TO)
     
     #BFS(TO)
+    
+    d = dijsktra_slowish(TO)
+    all_nodes = get_all_nodes(TO)
+    for i in all_nodes:
+       print(i.name, d[i.name])
+    
 
     '''
-    
 
     connected = get_all_nodes(TO)
     for i in connected:
