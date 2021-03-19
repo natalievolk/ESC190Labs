@@ -106,7 +106,7 @@ def dijsktra_slowish(node):
 
     unexplored = get_all_nodes(node)
     unvisit_all(node)
-    unexplored.remove(TO)
+    unexplored.remove(node)
 
     while len(unexplored) > 0:
         dist = sys.maxsize
