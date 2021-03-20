@@ -81,11 +81,11 @@ def find_height(bst):
     count = 0
     while len(s) > 0 and count < 20:
         
-        if cur.left != None and cur.right != None and cur not in explored:
+        if cur.left != None and cur.right != None: #and cur not in explored:
             s.append([bst, cur_height])
             cur = cur.left
             cur_height += 1
-        elif cur.left != None and cur not in explored:
+        elif cur.left != None: #and cur not in explored:
             cur_height += 1
             cur = cur.left
         elif cur.right != None:
@@ -114,8 +114,10 @@ def find_height(bst):
 # (Modify the BFS function from lecture for this problem)
 
 def BFS_tree(node):
+    # NOTE: commented out the explored list and checks because not necessary
+        # think about why it's not necessary ...
     q = [node]
-    explored = []
+    #explored = []
 
     count = 0
     cur = node
@@ -123,23 +125,23 @@ def BFS_tree(node):
     while len(q) > 0 and count < 20:
         cur = q.pop(0)
         print(cur)
-        if cur.left != None and cur.right != None and cur not in explored:
-            explored.append(cur)
+        if cur.left != None and cur.right != None: #and cur not in explored:
+            #explored.append(cur)
             q.extend([cur.left, cur.right])
 
-        elif cur.left != None and cur not in explored:
-            explored.append(cur)
+        elif cur.left != None: #and cur not in explored:
+            #explored.append(cur)
             q.append(cur.left)
             cur = cur.left
 
-        elif cur.right != None and cur.right not in explored:
-            explored.append(cur)
+        elif cur.right != None: #and cur.right not in explored:
+            #explored.append(cur)
             q.append(cur.right)
             cur = cur.right
 
         count += 1
 
-#BFS_tree(b)
+BFS_tree(a)
 
 
 # Problem 4
@@ -190,9 +192,10 @@ def make_data(max_nodes):
         
     return n_nodes, heights
 
-
+'''
 n, h = make_data(100000)
 import matplotlib.pyplot as plt
 plt.scatter(n, h)
 plt.show()
+'''
 # plt.savefig("trees.png") can save the data to disk
