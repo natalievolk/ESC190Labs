@@ -79,8 +79,8 @@ def find_height(bst):
 
     cur = bst
     count = 0
-    while len(s) > 0 and count < 20:
-        
+    while len(s) > 0:
+
         if cur.left != None and cur.right != None and cur not in explored:
             s.append([bst, cur_height])
             cur = cur.left
@@ -95,7 +95,7 @@ def find_height(bst):
             if cur_height > max_height:
                 max_height = cur_height
             temp = (s.pop(-1))
-            cur = temp[0] 
+            cur = temp[0]
             cur_height = temp[1]
 
         explored.append(cur)
@@ -103,7 +103,19 @@ def find_height(bst):
 
     return max_height
 
-#print(find_height(b))
+def find_height_rec(bst):
+    if bst.left == None and bst.right == None:
+        return 0
+    elif bst.left == None:
+        return 1+find_height_rec(bst.right)
+    elif bst.right == None:
+        return 1+find_height_rec(bst.left)
+
+    return max(1+find_height_rec(bst.left), 1+find_height_rec(bst.right))
+
+print(find_height(a))
+print(find_height_rec(a))
+print(find_height_rec(b))
 
 
 # Problem 3
@@ -115,31 +127,28 @@ def find_height(bst):
 
 def BFS_tree(node):
     q = [node]
-    explored = []
 
     count = 0
     cur = node
 
-    while len(q) > 0 and count < 20:
+    while len(q) > 0:
         cur = q.pop(0)
         print(cur)
-        if cur.left != None and cur.right != None and cur not in explored:
-            explored.append(cur)
+        if cur.left != None and cur.right != None:
             q.extend([cur.left, cur.right])
 
-        elif cur.left != None and cur not in explored:
-            explored.append(cur)
+        elif cur.left != None:
             q.append(cur.left)
             cur = cur.left
 
-        elif cur.right != None and cur.right not in explored:
-            explored.append(cur)
+        elif cur.right != None:
             q.append(cur.right)
             cur = cur.right
 
-        count += 1
-
-#BFS_tree(b)
+#don't need explored list
+BFS_tree(a)
+print("\n")
+BFS_tree(b)
 
 
 # Problem 4
@@ -161,7 +170,7 @@ def make_random_tree(n_nodes):
 def height_random_tree(n_nodes):
     '''Generate a random tree with n_nodes nodes, and return its height'''
     a = make_random_tree(n_nodes)
-    return find_height(a)
+    return find_height_rec(a)
 
 def make_data(max_nodes):
     '''Make two lists representing the empirical relationship between
@@ -179,7 +188,7 @@ def make_data(max_nodes):
     while n_nodes[-1]*1.2 <= max_nodes:
         n_nodes.append(int(n_nodes[-1]*1.2))
         heights.append(0)
-    
+
 
     for k in range(len(n_nodes)):
         cur_heights = 0
@@ -187,12 +196,13 @@ def make_data(max_nodes):
             cur_heights += height_random_tree(n_nodes[k])
 
         heights[k] = cur_heights / N_TREES
-        
+
     return n_nodes, heights
 
 
-n, h = make_data(100000)
+n, h = make_data(10000)
 import matplotlib.pyplot as plt
 plt.scatter(n, h)
 plt.show()
+
 # plt.savefig("trees.png") can save the data to disk

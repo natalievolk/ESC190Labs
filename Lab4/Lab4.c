@@ -22,5 +22,6 @@ int main(){
     print_linked_list(node0);
     free_list(node0);
     //print_linked_list(node0);
+    printf("%d", node0->data);
     return 0;
 }
