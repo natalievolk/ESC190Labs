@@ -79,13 +79,13 @@ def find_height(bst):
 
     cur = bst
     count = 0
-    while len(s) > 0:
-
-        if cur.left != None and cur.right != None and cur not in explored:
+    while len(s) > 0 and count < 20:
+        
+        if cur.left != None and cur.right != None: #and cur not in explored:
             s.append([bst, cur_height])
             cur = cur.left
             cur_height += 1
-        elif cur.left != None and cur not in explored:
+        elif cur.left != None: #and cur not in explored:
             cur_height += 1
             cur = cur.left
         elif cur.right != None:
@@ -126,6 +126,8 @@ print(find_height_rec(b))
 # (Modify the BFS function from lecture for this problem)
 
 def BFS_tree(node):
+    # NOTE: commented out the explored list and checks because not necessary
+        # think about why it's not necessary ...
     q = [node]
 
     count = 0
@@ -199,10 +201,10 @@ def make_data(max_nodes):
 
     return n_nodes, heights
 
-
-n, h = make_data(10000)
+'''
+n, h = make_data(100000)
 import matplotlib.pyplot as plt
 plt.scatter(n, h)
 plt.show()
-
+'''
 # plt.savefig("trees.png") can save the data to disk
