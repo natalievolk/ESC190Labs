@@ -119,5 +119,5 @@ bool bag_remove(bag_t *b, bag_elem_t e);
 OUR OWN
 */
 bool is_avl_tree(bag_t *bag);
-
+bool bag_insert_norot(bag_t *bag, bag_elem_t elem);
 #endif/*_BAG_H*/
