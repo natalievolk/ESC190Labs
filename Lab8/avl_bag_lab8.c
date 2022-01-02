@@ -614,17 +614,7 @@ int tree_height(avl_node_t *node){
 
     return MAX(1+tree_height(node->left), 1+tree_height(node->right));
 }
-/*
-def find_height_rec(bst):
-    if bst.left == None and bst.right == None:
-        return 0
-    elif bst.left == None:
-        return 1+find_height_rec(bst.right)
-    elif bst.right == None:
-        return 1+find_height_rec(bst.left)
 
-    return max(1+find_height_rec(bst.left), 1+find_height_rec(bst.right))
-*/
 bool is_avl_helper(avl_node_t *node) {
     
     if (node) {
@@ -640,7 +630,7 @@ bool is_avl_helper(avl_node_t *node) {
             return false;
         }
     }
-    return true;
+   
     }
     return true;
 }
@@ -648,14 +638,28 @@ bool is_avl_helper(avl_node_t *node) {
 bool is_avl_tree(bag_t *bag) {
 
     avl_node_t *node = bag->root;
-
     return is_avl_helper(node);
 }
 
+
+
+/*
+
+2. To test your function from (1), you need to create AVL trees (easy) as well as BSTs
+   that are not AVL trees. Make a function 
+
+   bool bag_insert_norot(bag_t *bag, bag_elem_t elem)
+ 
+   which inserts an element into a BST without performing any rotations. Using this function,
+   create BSTs that are not AVL trees.
+
+   Show your TA that your is_avl_tree function returns true for AVL trees and returns false
+   for non-AVL trees.
+*/
 bool bag_insert_helper(avl_node_t *node, bag_elem_t elem, avl_node_t *new){
 
     if (*((int *)elem) < *((int *)(node->elem))) {
-        printf("comparing %d %d\n", *((int *)elem), *((int *)(node->elem)));
+        //printf("comparing %d %d\n", *((int *)elem), *((int *)(node->elem)));
         if (!(node->left)){
             node->left = new;
             return true;
@@ -663,7 +667,7 @@ bool bag_insert_helper(avl_node_t *node, bag_elem_t elem, avl_node_t *new){
         bag_insert_helper(node->left, elem, new);
     }
     else if (*((int *)elem) > *((int *)(node->elem))) {
-            printf("comparing %d %d\n", *((int *)elem), *((int *)(node->elem)));
+            //printf("comparing %d %d\n", *((int *)elem), *((int *)(node->elem)));
             if (!(node->right)){
             node->right = new;
             return true;
@@ -685,65 +689,85 @@ bool bag_insert_norot(bag_t *bag, bag_elem_t elem){
         return true;
     }
     avl_node_t *node = bag->root;
-    printf("height pre-insertion %d\n", tree_height(node));
+    //printf("height pre-insertion %d\n", tree_height(node));
     return bag_insert_helper(node, elem, new);
 }
 
+
 /*
-    def insert(self, value):
-        '''
-        node.insert(5) is the same as BST.insert(node, 5)
-        We use this when recursively calling, e.g. self.left.insert
-        '''
-        if value < self.value:
-            if self.left == None:
-                self.left = BST(value)
-            else:
-                self.left.insert(value)
-        else:
-            if self.right == None:
-                self.right = BST(value)
-            else:
-                self.right.insert(value)
-
-
-2. To test your function from (1), you need to create AVL trees (easy) as well as BSTs
-   that are not AVL trees. Make a function 
-
-   bool bag_insert_norot(bag_t *bag, bag_elem_t elem)
- 
-   which inserts an element into a BST without performing any rotations. Using this function,
-   create BSTs that are not AVL trees.
-
-   Show your TA that your is_avl_tree function returns true for AVL trees and returns false
-   for non-AVL trees.
-
 3. Rewrite avl_remove from scratch.
 */
-bool avl_remove2_helper(avl_node_t *node, ){
-    if (node->right == NULL && node->left == NULL) 
+bool avl_remove2_helper(avl_node_t *node, avl_node_t *parent){
+    // TODO: need to update height
+    //  can use avl traverse function and pass update_height as parameter
+    if (!node) return false;
+    else if (node->right == NULL && node->left == NULL) {
+        if (parent->elem > node->elem) {
+            parent->left = NULL;
+        } else {
+            parent->right = NULL;
+        }
+        free(node);
+    } else if (node->right == NULL) {
+        if (parent->elem > node->elem) {
+            parent->left = node->left;
+        } else {
+            parent->right = node->left;
+        }
+        free(node);
+    } else if (node->left == NULL) {
+        if (parent->elem > node->elem) {
+            parent->left = node->right;
+        } else {
+            parent->right = node->right;
+        }
+        free(node);
+    } else {
+        avl_node_t *cur = node->right;
+        while(cur->left != NULL) {
+            cur = cur->left;
+        }
+        if (parent->elem > node->elem) {
+            parent->left = cur;
+        } else {
+            parent->right = cur;
+        }
+        free(node);
+    }
+    return true;
 }
+
 bool avl_remove2(avl_node_t **root, bag_elem_t elem, int (*cmp)(bag_elem_t, bag_elem_t)){
     
     if (! *root) return false;
-    if ((*root)->elem == elem)  
-    if (*((int *)elem) < *((int *)(root->elem))) {
+    
+    if (*((int *)elem) < *((int *)((*root)->elem))) {
         
-        if (!(root->left)){
-            
+        if (!((*root)->left)){
             return false;
+        } else if ((*root)->left->elem == elem) {
+            avl_remove2_helper((*root)->left, *root);
+        } else {
+            avl_remove2(&((*root)->left), elem, cmp);
         }
-        else if ((*root)->left->elem = elem)
-        avl_remove2(&((*root)->left), elem, cmp);
     }
-    else if (*((int *)elem) > *((int *)(root->elem))) {
-            if (!(root->right)){
-            
+    else if (*((int *)elem) > *((int *)((*root)->elem))) {
+        if (!((*root)->right)){
             return false;
+        } else if ((*root)->right->elem == elem) {
+            avl_remove2_helper((*root)->right, *root);
+        } else {
+            avl_remove2(&((*root)->right), elem, cmp);
         }
-        avl_remove2(&((*root)->right), elem, cmp);
     }
-    else if 
+
+    if (tree_height((*root)->left) + 1 > tree_height((*root)->right)) {
+        avl_rebalance_to_the_right(root);
+    } else if (tree_height((*root)->right) + 1 > tree_height((*root)->left)) {
+        avl_rebalance_to_the_left(root);
+    }
+    return true;
+
     /*plan:
     1 - locate the element (assume unique elements?)
     2 - remove by re-linking the pointer, make sure to re-link according to BST rules
@@ -751,4 +775,14 @@ bool avl_remove2(avl_node_t **root, bag_elem_t elem, int (*cmp)(bag_elem_t, bag_
     3 - use is_avl to check if it's still an avl tree (height balance condition)
     4 - if not, 
     */
+}
+
+bool bag_remove_2(bag_t *bag, bag_elem_t elem)
+{
+    if (avl_remove2(&bag->root, elem, bag->cmp)) {
+        bag->size--;
+        return true;
+    } else {
+        return false;
+    }
 }

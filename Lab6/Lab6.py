@@ -130,7 +130,6 @@ def BFS_tree(node):
         # think about why it's not necessary ...
     q = [node]
 
-    count = 0
     cur = node
 
     while len(q) > 0:

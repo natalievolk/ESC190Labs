@@ -23,6 +23,10 @@ int compare_int(bag_elem_t p1, bag_elem_t p2) {
         return 0;
 }
 
+void print_node(bag_elem_t elem) {
+    printf("%d", *(int *)elem);
+} 
+
 int main() {
 
     bag_t *bag = bag_create(compare_int);
@@ -37,7 +41,7 @@ int main() {
     int a3=10;
     bag_insert(bag, &a3);
 
-    
+    /*
     bag_t *bag_norot = bag_create(compare_int);
 
     printf("%d\n", is_avl_tree(bag));
@@ -56,4 +60,12 @@ int main() {
     bag_insert_norot(bag_norot, &n5);
     printf("%d\n", is_avl_tree(bag_norot));
     return 0;
+    */
+
+    bag_print(bag, 3, print_node);
+   
+    bag_remove_2(bag, &a3);
+
+    bag_print(bag, 3, print_node);
+    
 }

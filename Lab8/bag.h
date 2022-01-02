@@ -120,4 +120,7 @@ OUR OWN
 */
 bool is_avl_tree(bag_t *bag);
 bool bag_insert_norot(bag_t *bag, bag_elem_t elem);
+bool bag_remove_2(bag_t *bag, bag_elem_t elem);
+
+void bag_print(const bag_t *bag, int indent, void (*print)(bag_elem_t));
 #endif/*_BAG_H*/

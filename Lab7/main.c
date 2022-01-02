@@ -14,9 +14,9 @@ int main(){
             int green = (int) (scale * get_pixel(im, i, j, 1));
             int blue = (int) (scale * get_pixel(im, i, j, 2));
             
-            if ((int)(red) > 255) {red = 255;}
-            if ((int)(green) > 255) {green = 255;}
-            if ((int)(blue) > 255) {blue = 255;}
+            if (red > 255) {red = 255;}
+            if (green > 255) {green = 255;}
+            if (blue > 255) {blue = 255;}
 
             set_pixel(im, i, j, (int)red, (int)green, (int)blue);            
         }
